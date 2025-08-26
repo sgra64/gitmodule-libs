@@ -1,2 +1,168 @@
 # gitmodule-libs
-Gitmodule with .jar libraries for SE-1 Java projects.
+
+[*Git-submodule*](https://www.atlassian.com/git/tutorials/git-submodule)
+with [*install.sh*](install.sh) - script to install *.jar* libraries
+from a [*.bom*](.bom) (bill-of-materials) file
+for SE-1 *Java* projects grouped into packages:
+
+- `jackson`: for processing *JSON* data in Java.
+
+- `jacoco`: code coverage library for Java.
+
+- `junit`: libraries for JUnit tests.
+
+- `junit-platform-console-standalone-1.9.2.jar`: JUnit test runner.
+
+- `log4j`: logging library for Java.
+
+- `lombok`: library to inject constructors, getter and setter methods, see
+    [*Project Lombok*](https://projectlombok.org).
+
+Refer to [*gitmodule-libs-jars*](https://github.com/sgra64/gitmodule-libs-jars)
+where libraries are maintained.
+
+Scaffold of library packages and *.jar*-files in the `libs` directory:
+
+```sh
+<libs>                  # branch directory
+ |
+ +--.bom                # 'bill-of-materials' (BOM) with list of '.jar'-files
+ |
+ +-<jackson>                    # library for processing JSON data in Java
+ |  +--jackson-annotations-2.19.0.jar
+ |  +--jackson-core-2.19.0.jar
+ |  +--jackson-databind-2.19.0.jar
+ |
+ +-<jacoco>                     # code coverage library for Java
+ |  +--jacocoagent.jar
+ |  +--jacococli.jar
+ |
+ +-<junit>                      # libraries for JUnit tests
+ |  +--apiguardian-api-1.1.2.jar
+ |  +--junit-jupiter-api-5.12.2.jar
+ |  +--junit-platform-commons-1.9.2.jar
+ |  +--opentest4j-1.3.0.jar
+ |                              # JUnit test runner
+ +--junit-platform-console-standalone-1.9.2.jar
+ |
+ +-<log4j>                      # log4j2 logging library for Java
+ |  +--log4j-api-2.24.3.jar
+ |  +--log4j-core-2.24.3.jar
+ |  +--log4j-slf4j2-impl-2.24.3.jar
+ |  +--slf4j-api-2.0.17.jar
+ |
+ +-<lombok>                     # lombok library
+    +--lombok-1.18.38.jar
+```
+
+Libraries can be checked-out into the project's `libs` directory:
+
+```sh
+git clone -b main --single-branch https://github.com/sgra64/gitmodule-libs.git libs
+
+cd libs                         # change into the new 'libs' directory
+
+ls -la                          # show content of 'libs' directory
+```
+```
+total 29
+drwxr-xr-x 1    0 Aug 26 18:27 ./
+drwxr-xr-x 1    0 Aug 26 17:43 ../
+-rw-r--r-- 1 1922 Aug 26 17:33 .bom             # 'bill-of-materials' file
+drwxr-xr-x 1    0 Aug 26 18:28 .git/
+-rw-r--r-- 1  519 Aug 26 17:33 .gitignore
+-rw-r--r-- 1 3140 Aug 26 18:27 install.sh       # install-script
+-rw-r--r-- 1 6482 Aug 26 18:30 README.md
+```
+
+The [*install.sh*](install.sh) script requires tools
+[*curl*](https://curl.se/docs/tutorial.html) or
+[*wget*](https://linuxize.com/post/wget-command-examples)
+installed. Verify you have those tools (one is sufficient):
+
+```sh
+curl --version                  # print version of 'curl' or 'not found'
+
+wget --version                  # print version of 'wget' or 'not found'
+```
+
+Run the [*install.sh*](install.sh) script to download *.jar*
+libraries from the URL from the [*.bom*](.bom) file.
+Download commands are executed with the `--exec` option:
+
+```sh
+install.sh                      # show '.jar' download commands
+
+install.sh --exec               # execute '.jar' download commands
+```
+
+Output shows download commands:
+
+```
+mkdir -p jackson
+curl -o "jackson/jackson-annotations-2.19.0.jar" -L "https://repo1.maven.org/maven2/com/fasterxml/jackson/core/jackson-annotations/2.19.0/jackson-annotations-2.19.0.jar" 2>/dev/null
+curl -o "jackson/jackson-core-2.19.0.jar" -L "https://repo1.maven.org/maven2/com/fasterxml/jackson/core/jackson-core/2.19.0/jackson-core-2.19.0.jar" 2>/dev/null
+curl -o "jackson/jackson-databind-2.19.0.jar" -L "https://repo1.maven.org/maven2/com/fasterxml/jackson/core/jackson-databind/2.19.0/jackson-databind-2.19.0.jar" 2>/dev/null
+mkdir -p junit
+curl -o "junit/apiguardian-api-1.1.2.jar" -L "https://repo1.maven.org/maven2/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar" 2>/dev/null
+curl -o "junit/junit-jupiter-api-5.12.2.jar" -L "https://repo1.maven.org/maven2/org/junit/jupiter/junit-jupiter-api/5.12.2/junit-jupiter-api-5.12.2.jar" 2>/dev/null
+curl -o "junit/junit-platform-commons-1.9.2.jar" -L "https://repo1.maven.org/maven2/org/junit/platform/junit-platform-commons/1.9.2/junit-platform-commons-1.9.2.jar" 2>/dev/null
+curl -o "junit/opentest4j-1.3.0.jar" -L "https://repo1.maven.org/maven2/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar" 2>/dev/null
+curl -o "./junit-platform-console-standalone-1.9.2.jar" -L "https://repo1.maven.org/maven2/org/junit/platform/junit-platform-console-standalone/1.9.2/junit-platform-console-standalone-1.9.2.jar" 2>/dev/null
+mkdir -p logging
+curl -o "logging/log4j-api-2.24.3.jar" -L "https://repo1.maven.org/maven2/org/apache/logging/log4j/log4j-api/2.24.3/log4j-api-2.24.3.jar" 2>/dev/null
+curl -o "logging/log4j-core-2.24.3.jar" -L "https://repo1.maven.org/maven2/org/apache/logging/log4j/log4j-core/2.24.3/log4j-core-2.24.3.jar" 2>/dev/null
+curl -o "logging/log4j-slf4j2-impl-2.24.3.jar" -L "https://repo1.maven.org/maven2/org/apache/logging/log4j/log4j-slf4j2-impl/2.24.3/log4j-slf4j2-impl-2.24.3.jar" 2>/dev/null
+curl -o "logging/slf4j-api-2.0.17.jar" -L "https://repo1.maven.org/maven2/org/slf4j/slf4j-api/2.0.17/slf4j-api-2.0.17.jar" 2>/dev/null
+mkdir -p lombok
+curl -o "lombok/lombok-1.18.38.jar" -L "https://repo1.maven.org/maven2/org/projectlombok/lombok/1.18.38/lombok-1.18.38.jar" 2>/dev/null
+mkdir -p jacoco
+curl -o "jacoco/jacocoagent.jar" -L "https://github.com/sgra64/gitmodule-libs-jars/raw/refs/heads/main/jacoco/jacocoagent.jar" 2>/dev/null
+curl -o "jacoco/jacococli.jar" -L "https://github.com/sgra64/gitmodule-libs-jars/raw/refs/heads/main/jacoco/jacococli.jar" 2>/dev/null
+```
+
+The `libs` directory contains the libraries after installation:
+
+```
+total 2597
+drwxr-xr-x 1       0 Aug 26 18:40 ./
+drwxr-xr-x 1       0 Aug 26 17:43 ../
+-rw-r--r-- 1    1922 Aug 26 17:33 .bom              # 'bill-of-materials' file
+drwxr-xr-x 1       0 Aug 26 18:39 .git/
+-rw-r--r-- 1     519 Aug 26 17:33 .gitignore
+-rw-r--r-- 1    3140 Aug 26 18:27 install.sh        # install-script
+drwxr-xr-x 1       0 Aug 26 18:40 jackson/
+drwxr-xr-x 1       0 Aug 26 18:40 jacoco/
+drwxr-xr-x 1       0 Aug 26 18:40 junit/
+-rw-r--r-- 1 2614420 Aug 26 18:40 junit-platform-console-standalone-1.9.2.jar
+drwxr-xr-x 1       0 Aug 26 18:40 logging/
+drwxr-xr-x 1       0 Aug 26 18:40 lombok/
+-rw-r--r-- 1    7069 Aug 26 18:39 README.md
+```
+
+List content of *jar* files:
+
+```sh
+find -name '*.jar'
+```
+
+Output shows the list of *.jar* files also included in the
+[*.bom*](.bom) (bill-of-materials) file:
+
+```
+./jackson/jackson-annotations-2.19.0.jar
+./jackson/jackson-core-2.19.0.jar
+./jackson/jackson-databind-2.19.0.jar
+./jacoco/jacocoagent.jar
+./jacoco/jacococli.jar
+./junit/apiguardian-api-1.1.2.jar
+./junit/junit-jupiter-api-5.12.2.jar
+./junit/junit-platform-commons-1.9.2.jar
+./junit/opentest4j-1.3.0.jar
+./junit-platform-console-standalone-1.9.2.jar
+./logging/log4j-api-2.24.3.jar
+./logging/log4j-core-2.24.3.jar
+./logging/log4j-slf4j2-impl-2.24.3.jar
+./logging/slf4j-api-2.0.17.jar
+./lombok/lombok-1.18.38.jar
+```
