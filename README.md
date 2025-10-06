@@ -1,10 +1,12 @@
 # gitmodule-libs
 [*Git-submodule*](https://www.atlassian.com/git/tutorials/git-submodule)
-with [*install.sh*](install.sh) - script to install *.jar* libraries
-from a [*.bom*](.bom) (bill-of-materials) file
-for SE-1 *Java* projects grouped into packages:
+with the [*jars.sh*](jars.sh) - script to install *.jar* libraries setting
+up the `libs` folder from the
+[*.bom*](.bom) (bill-of-materials) file.
 
-- `jackson`: for processing *JSON* data in Java.
+Package grouping:
+
+- `jackson`: library for processing *JSON* data in Java.
 
 - `jacoco`: code coverage library for Java.
 
@@ -14,11 +16,11 @@ for SE-1 *Java* projects grouped into packages:
 
 - `log4j`: logging library for Java.
 
-- `lombok`: library to inject constructors, getter and setter methods, see
+- `lombok`: library to inject constructors, getters and setters from the
     [*Project Lombok*](https://projectlombok.org).
 
-Refer to [*gitmodule-libs-jars*](https://github.com/sgra64/gitmodule-libs-jars)
-where libraries are maintained.
+See descriptions at
+[*gitmodule-libs-jars*](https://github.com/sgra64/gitmodule-libs-jars).
 
 
 Check-out this *git module* into sub-directory `libs` with:
@@ -32,14 +34,14 @@ ls -la libs                 # show content of libs folder holding the git module
 total 26
 drwxr-xr-x 1    0 Oct  5 22:40 ./
 drwxr-xr-x 1    0 Oct  5 22:40 ../
--rw-r--r-- 1 1922 Oct  5 22:40 .bom             <-- 'bill-of-materials' file
+-rw-r--r-- 1 1922 Oct  5 22:40 .bom             # 'bill-of-materials' file
 -rw-r--r-- 1   29 Oct  5 22:40 .git
 -rw-r--r-- 1  519 Oct  5 22:40 .gitignore
--rw-r--r-- 1 3143 Oct  5 22:40 install.sh       <-- install-script for libraries
+-rw-r--r-- 1 3143 Oct  5 22:40 jars.sh          # to source the 'jars' command
 -rw-r--r-- 1 7054 Oct  5 22:40 README.md
 ```
 
-In addition, git has created a `.gitmodules` file in the project directory
+In addition, *git* has created a `.gitmodules` file in the project directory
 and added the new gitmodule:
 
 ```sh
@@ -53,6 +55,10 @@ Output shows the new git module registered with the project:
         path = libs
         url = https://github.com/sgra64/gitmodule-libs.git
 ```
+
+Git modules can be processed by
+[*git submodule*](https://git-scm.com/docs/git-submodule)
+commands, e.g.:
 
 ```sh
 git submodule                       # list git submodules registered with the project
@@ -73,12 +79,12 @@ nothing to commit, working tree clean
 
 ## Module Scaffold
 
-The scaffold of library packages and *.jar*-files in the `libs` directory is:
+The scaffold of the `libs` submodule and *packages* and *.jar*-files within is:
 
 ```sh
-<libs>                  # branch directory
+<libs>                  # this git-submodule
  |
- +--.bom                # 'bill-of-materials' (BOM) with list of '.jar'-files
+ +--.bom                # 'bill-of-materials' file with list of '.jar'-files
  |
  +-<jackson>                    # library for processing JSON data in Java
  |  +--jackson-annotations-2.19.0.jar
@@ -110,12 +116,12 @@ The scaffold of library packages and *.jar*-files in the `libs` directory is:
 
 &nbsp;
 
-## Install Libraries
+## Fetch Libraries
 
-The [*install.sh*](install.sh) script requires tools
+Script [*jars.sh*](jars.sh) requires tools
 [*curl*](https://curl.se/docs/tutorial.html) or
 [*wget*](https://linuxize.com/post/wget-command-examples)
-installed. Verify you have those tools (one is sufficient):
+installed. Verify you have at least one of those tools installed:
 
 ```sh
 curl --version                  # print version of 'curl' or 'not found'
@@ -123,17 +129,37 @@ curl --version                  # print version of 'curl' or 'not found'
 wget --version                  # print version of 'wget' or 'not found'
 ```
 
-Run the [*install.sh*](install.sh) script to download *.jar*
-libraries from the URL from the [*.bom*](.bom) file.
-Download commands are executed with the `--exec` option:
+Source the [*jars.sh*](jars.sh) script for the "*jars*" command.
+The *jars* command shows and(or) fetches *.jar* libraries from URL's
+from the [*.bom*](.bom) (bill-of-materials) file.
+
+Flag `-v` shows .jar files to download, flag `-f` fetches and installs
+*.jar* files into package sub-directories. Flag `--wipe` removes downloaded
+*.jar* files, `--wipe-all` removes downloaded *.jar* files and functions.
 
 ```sh
-install.sh                      # show '.jar' download commands
-
-install.sh --exec               # execute '.jar' download commands
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# The 'jars' command shows and(or) fetches .jar libraries from URL's from the
+# '.bom' (bill-of-materials) file.
+# Flag '-v' shows .jar files to download, flag '-f' fetches and installs .jar
+# files into package sub-directories.
+# Flag '--wipe' removes packages, flag '--wipe-all' also removes functions.
+# 
+# Usage:
+# - jars [-v|--show] [-f|--fetch] [--help] [--wipe|--wipe-all]
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ```
 
-Output shows download commands:
+Sourcing and using the "*jars*" command from [*jars.sh*](jars.sh):
+
+```sh
+source jars.sh          # source the new 'jars' command
+
+jars -v                 # show .jar files to download
+jars -f                 # fetch and install .jar files into package sub-directories
+```
+
+Output shows package-creation (*mkdir ...*) and download commands (*curl ...*):
 
 ```
 mkdir -p jackson
@@ -158,7 +184,7 @@ curl -o "jacoco/jacocoagent.jar" -L "https://github.com/sgra64/gitmodule-libs-ja
 curl -o "jacoco/jacococli.jar" -L "https://github.com/sgra64/gitmodule-libs-jars/raw/refs/heads/main/jacoco/jacococli.jar" 2>/dev/null
 ```
 
-The `libs` directory contains the libraries after installation:
+After download, the `libs` directory contains all packages and *.jar* files:
 
 ```
 total 2597
@@ -167,13 +193,13 @@ drwxr-xr-x 1       0 Aug 26 17:43 ../
 -rw-r--r-- 1    1922 Aug 26 17:33 .bom              # 'bill-of-materials' file
 drwxr-xr-x 1       0 Aug 26 18:39 .git/
 -rw-r--r-- 1     519 Aug 26 17:33 .gitignore
--rw-r--r-- 1    3140 Aug 26 18:27 install.sh        # install-script
-drwxr-xr-x 1       0 Aug 26 18:40 jackson/
-drwxr-xr-x 1       0 Aug 26 18:40 jacoco/
-drwxr-xr-x 1       0 Aug 26 18:40 junit/
+-rw-r--r-- 1    3140 Aug 26 18:27 jars.sh           # to source the 'jars' command
+drwxr-xr-x 1       0 Aug 26 18:40 jackson/          --> new 'jackson' package
+drwxr-xr-x 1       0 Aug 26 18:40 jacoco/           --> new 'jacoco' package
+drwxr-xr-x 1       0 Aug 26 18:40 junit/            --> new 'junit' package
 -rw-r--r-- 1 2614420 Aug 26 18:40 junit-platform-console-standalone-1.9.2.jar
-drwxr-xr-x 1       0 Aug 26 18:40 logging/
-drwxr-xr-x 1       0 Aug 26 18:40 lombok/
+drwxr-xr-x 1       0 Aug 26 18:40 logging/          --> new 'logging' package
+drwxr-xr-x 1       0 Aug 26 18:40 lombok/           --> new 'lombok' package
 -rw-r--r-- 1    7069 Aug 26 18:39 README.md
 ```
 
@@ -209,7 +235,9 @@ Output shows the list of *.jar* files also included in the
 
 ## Maven Repository
 
-Files are sourced from the central [*Maven Repository*](https://mvnrepository.com).
+All *.jar* files are fetched from the central [*Maven Repository*](https://mvnrepository.com), which store *.jar* files of all published versions of
+all publicly available *.jar* files, including packages used for the `libs`
+git-submodule:
 
 - `jackson`:
 
@@ -257,4 +285,3 @@ Files are sourced from the central [*Maven Repository*](https://mvnrepository.co
 - `lombok`:
 
   - [lombok](https://mvnrepository.com/artifact/org.projectlombok/lombok)-[1.18.38](https://mvnrepository.com/artifact/org.projectlombok/lombok/1.18.38).[jar](https://repo1.maven.org/maven2/org/projectlombok/lombok/1.18.38/lombok-1.18.38.jar)
-
