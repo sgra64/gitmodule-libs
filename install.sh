@@ -32,27 +32,27 @@ declare -gA packages=(
 )
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# The 'jars' command shows and(or) fetches .jar libraries from URL's from the
-# '.bom' (bill-of-materials) file.
+# The 'install' command shows and(or) fetches .jar libraries from URL's from
+# the '.bom' (bill-of-materials) file.
 # Flag '-v' shows .jar files to download, flag '-f' fetches and installs .jar
 # files into package sub-directories.
 # Flag '--wipe' removes packages, flag '--wipe-all' also removes functions.
 # 
 # Usage:
-# - jars [-v|--show] [-f|--fetch] [--help] [--wipe|--wipe-all]
+# - install [-v|--show] [-f|--fetch] [--help] [--wipe|--wipe-all]
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-function jars() {
+function install() {
     local show_jars=""; local fetch_jars=""
     # 
     local args=(); local sp=""
-    [ -z "$@" ] && jars --help && return 0 ||
+    [ -z "$@" ] && install --help && return 0 ||
         for arg in $@; do
             case "$arg" in
             -v|--show) local show_jars=true ;;
             -f|--fetch) local fetch_jars=true ;;
             --wipe-all) wipe --all; return 0 ;;
             --wipe) wipe; return 0 ;;
-            --help) echo "usage: jars [-v|--show] [-f|--fetch] [--help] [--wipe|--wipe-all]"
+            --help) echo "usage: install [-v|--show] [-f|--fetch] [--help] [--wipe|--wipe-all]"
                     return 0
                     ;;
             *) args+="$sp$arg"; sp=" " ;;
@@ -123,7 +123,7 @@ function wipe() {
         local cmd="unset packages" && echo "$cmd" && eval $cmd
     # 
     [ "$1" = "--all" ] && local rm_funcs=() &&
-        for func in jars wipe; do
+        for func in install wipe; do
             if typeset -f $func >/dev/null; then
                 rm_funcs+=($func)
                 local print_wiping=true

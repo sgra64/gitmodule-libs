@@ -1,6 +1,6 @@
 # gitmodule-libs
 [*Git-submodule*](https://www.atlassian.com/git/tutorials/git-submodule)
-with the [*jars.sh*](jars.sh) - script to install *.jar* libraries setting
+with the [*install.sh*](install.sh) - script to install *.jar* libraries setting
 up the `libs` folder from the
 [*.bom*](.bom) (bill-of-materials) file.
 
@@ -37,7 +37,7 @@ drwxr-xr-x 1    0 Oct  5 22:40 ../
 -rw-r--r-- 1 1922 Oct  5 22:40 .bom             # 'bill-of-materials' file
 -rw-r--r-- 1   29 Oct  5 22:40 .git
 -rw-r--r-- 1  519 Oct  5 22:40 .gitignore
--rw-r--r-- 1 3143 Oct  5 22:40 jars.sh          # to source the 'jars' command
+-rw-r--r-- 1 3143 Oct  5 22:40 install.sh          # to source the 'install' command
 -rw-r--r-- 1 7054 Oct  5 22:40 README.md
 ```
 
@@ -118,7 +118,7 @@ The scaffold of the `libs` submodule and *packages* and *.jar*-files within is:
 
 ## Fetch Libraries
 
-Script [*jars.sh*](jars.sh) requires tools
+Script [*install.sh*](install.sh) requires tools
 [*curl*](https://curl.se/docs/tutorial.html) or
 [*wget*](https://linuxize.com/post/wget-command-examples)
 installed. Verify you have at least one of those tools installed:
@@ -129,8 +129,8 @@ curl --version                  # print version of 'curl' or 'not found'
 wget --version                  # print version of 'wget' or 'not found'
 ```
 
-Source the [*jars.sh*](jars.sh) script for the "*jars*" command.
-The *jars* command shows and(or) fetches *.jar* libraries from URL's
+Source the [*install.sh*](install.sh) script for the "*install*" command.
+The *install* command shows and(or) fetches *.jar* libraries from URL's
 from the [*.bom*](.bom) (bill-of-materials) file.
 
 Flag `-v` shows .jar files to download, flag `-f` fetches and installs
@@ -139,24 +139,24 @@ Flag `-v` shows .jar files to download, flag `-f` fetches and installs
 
 ```sh
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# The 'jars' command shows and(or) fetches .jar libraries from URL's from the
-# '.bom' (bill-of-materials) file.
+# The 'install' command shows and(or) fetches .jar libraries from URL's from
+# the '.bom' (bill-of-materials) file.
 # Flag '-v' shows .jar files to download, flag '-f' fetches and installs .jar
 # files into package sub-directories.
 # Flag '--wipe' removes packages, flag '--wipe-all' also removes functions.
 # 
 # Usage:
-# - jars [-v|--show] [-f|--fetch] [--help] [--wipe|--wipe-all]
+# - install [-v|--show] [-f|--fetch] [--help] [--wipe|--wipe-all]
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ```
 
-Sourcing and using the "*jars*" command from [*jars.sh*](jars.sh):
+Sourcing and using the "*install*" command from [*install.sh*](install.sh):
 
 ```sh
-source jars.sh          # source the new 'jars' command
+source install.sh       # source the new 'install' command
 
-jars -v                 # show .jar files to download
-jars -f                 # fetch and install .jar files into package sub-directories
+install -v              # show .jar files to download
+install -f              # fetch and install .jar files into package sub-directories
 ```
 
 Output shows package-creation (*mkdir ...*) and download commands (*curl ...*):
@@ -193,7 +193,7 @@ drwxr-xr-x 1       0 Aug 26 17:43 ../
 -rw-r--r-- 1    1922 Aug 26 17:33 .bom              # 'bill-of-materials' file
 drwxr-xr-x 1       0 Aug 26 18:39 .git/
 -rw-r--r-- 1     519 Aug 26 17:33 .gitignore
--rw-r--r-- 1    3140 Aug 26 18:27 jars.sh           # to source the 'jars' command
+-rw-r--r-- 1    3140 Aug 26 18:27 install.sh           # to source the 'install' command
 drwxr-xr-x 1       0 Aug 26 18:40 jackson/          --> new 'jackson' package
 drwxr-xr-x 1       0 Aug 26 18:40 jacoco/           --> new 'jacoco' package
 drwxr-xr-x 1       0 Aug 26 18:40 junit/            --> new 'junit' package
