@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Disable zsh to output ANSI escape chars in sub-processes $(...),
 # setopt no_match: disable 'no matches found:' message in zsh.
@@ -71,7 +71,6 @@ function install() {
             [ -f .bom ] && ( grep '^http' < .bom | while read url
             do
                 local jar=${url##http*/}    # cut until last slash, local jar=$(basename "$url")
-                local path=${url%/*}        # cut after last slash, local path=$(dirname "$url")
                 local nam=${jar/-[0-9\.]*.jar/}     # stip version leaving name to look up in ${packages[$nam]}
                 local pck=${packages[$nam]}         # looked up package
                 [ -z "$pck" ] && pck="." && echo "could not group into package: \"$jar\", use \".\""
